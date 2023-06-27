@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
-import cartImage from '../styles/cart.png';
-import CartSidebar from './CartSidebar';
+import Cart from './Cart';
 
 const Home = () => <h2>Home</h2>;
 const About = () => <h2>About</h2>;
@@ -55,8 +54,8 @@ const App = () => {
               </ul>
             </li>
             <li className="nav-item cart" onClick={toggleCart}>
-              <span className={cartImage}>Cart</span>
-              {cartOpen && <CartSidebar />}
+              <span className='cart-image'>Cart</span>
+              {cartOpen && <Cart />}
             </li>
           </ul>
         </nav>
@@ -69,7 +68,7 @@ const App = () => {
             <Route path="/products/accounts" component={Accounts} />
             <Route path="/products/skins" component={Skins} />
             <Route path="/products/other" component={Other} />
-            <Route path="/cart" component={CartSidebar} />
+            <Route path="/cart" component={Cart} />
           </Switch>
           <h1>Hello, World!</h1>
           <p>API Status: {APIHealth}</p>
