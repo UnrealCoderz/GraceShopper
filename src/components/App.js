@@ -7,22 +7,23 @@ import {
 } from "react-router-dom";
 import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
+import Login from './users/Login'; 
+import Register from './users/Register';
+import Logout from './users/Logout';
 
 export default function App() {
   const [APIHealth, setAPIHealth] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
+
   useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
     const getAPIStatus = async () => {
       const { healthy } = await getAPIHealth();
       setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
     };
-
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
+
   return (
     <Router>
       <div className="app-container">
@@ -42,8 +43,6 @@ export default function App() {
         <h1>Hello, World!</h1>
         <p>API Status: {APIHealth}</p>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/about">
             <About />
@@ -51,8 +50,17 @@ export default function App() {
           <Route path="/users">
             <Users />
           </Route>
+          <Route path="/login">
+            <Login setIsLoggedIn={setIsLoggedIn} setEmail={setEmail} />
+          </Route>
+          <Route path="/register">
+            <Register setIsLoggedIn={setIsLoggedIn} setEmail={setEmail} />
+          </Route>
+          <Route path="/logout">
+            <Logout setIsLoggedIn={setIsLoggedIn} />
+          </Route>
           <Route path="/">
-            <Home />
+            <Home isLoggedIn={isLoggedIn} email={email}/>
           </Route>
         </Switch>
       </div>
@@ -60,8 +68,17 @@ export default function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
+function Home({ isLoggedIn, email }) {
+  return (
+    <div>
+      <h2>Home</h2>
+      {isLoggedIn ? (
+        <div>Welcome, {email}!</div>
+      ) : (
+        <div>Please <Link to="/users/login">login</Link> or <Link to="/users/register">register</Link>.</div>
+      )}
+    </div>
+  );
 }
 
 function About() {
