@@ -2,7 +2,7 @@ const {
   client,
   // declare your model imports here
   // for example, User
-} = require('./');
+} = require("./");
 
 async function buildTables() {
   try {
@@ -49,7 +49,8 @@ async function buildTables() {
     CREATE TABLE products_in_cart(
       id SERIAL PRIMARY KEY,
       "productsid" INTEGER REFERENCES products(id),
-      "cartsid" INTEGER REFERENCES carts(id)
+      "cartsid" INTEGER REFERENCES carts(id),
+      quantity INTEGER
     );
     CREATE TABLE reviews(
       id SERIAL PRIMARY KEY,
@@ -71,7 +72,6 @@ async function buildTables() {
     throw error;
   }
 }
-
 
 async function populateInitialData() {
   try {
