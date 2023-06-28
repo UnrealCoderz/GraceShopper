@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { useHistory, BrowserRouter } from "react-router-dom";
 const Logout = ({ setIsLoggedIn }) => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   useEffect(() => {
     setIsLoggedIn(false);
     navigate("/users/Login");

@@ -1,10 +1,10 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { useHistory, BrowserRouter } from "react-router-dom";
 import { RegisterPerson } from "../../api/index.js";
 
 
 const Register = ({ setEmail, setIsLoggedIn }) => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   async function handleSubmit(event) {
     event.preventDefault();
     const result = await RegisterPerson(event);

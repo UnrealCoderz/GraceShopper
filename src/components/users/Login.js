@@ -1,10 +1,11 @@
 import React from "react";
-import { BrowserRouter } from "react-router";
+import { useHistory } from "react-router";
 import { LoginPerson } from "../../api";
 import { Register } from "../index";
 
+
 const Login = ({ setIsLoggedIn, setEmail }) => {
-    const navigate = useNavigate();
+    const navigate = useHistory();
   
     async function handleSubmit(event) {
       event.preventDefault();
