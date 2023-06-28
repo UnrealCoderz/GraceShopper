@@ -1,73 +1,81 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { getAPIHealth } from '../axios-services';
 import '../style/App.css';
+import Cart from './Cart';
 
-export default function App() {
+const Home = () => <h2>Home</h2>;
+const About = () => <h2>About</h2>;
+const Products = () => <h2>Products</h2>;
+const Accounts = () => <h2>Accounts</h2>;
+const Skins = () => <h2>Skins</h2>;
+const Other = () => <h2>Other</h2>;
+
+const App = () => {
   const [APIHealth, setAPIHealth] = useState('');
+  const [cartOpen, setCartOpen] = useState(false)
+
+  const toggleCart = () => {
+    setCartOpen(!cartOpen);
+  };
+
   useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
     const getAPIStatus = async () => {
       const { healthy } = await getAPIHealth();
       setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
     };
 
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
     getAPIStatus();
   }, []);
+
   return (
     <Router>
-      <div className="app-container">
-        <nav>
-          <ul>
-            <li>
+      <div>
+        <nav className="navbar">
+          <ul className="nav-list">
+            <li className="nav-item">
               <Link to="/">Home</Link>
             </li>
-            <li>
+            <li className="nav-item">
               <Link to="/about">About</Link>
             </li>
-            <li>
-              <Link to="/users">Users</Link>
+            <li className="nav-item dropdown">
+              <span className="dropdown-toggle">Products</span>
+              <ul className="dropdown-menu">
+                <li>
+                  <Link to="/products/accounts">Accounts</Link>
+                </li>
+                <li>
+                  <Link to="/products/skins">Skins</Link>
+                </li>
+                <li>
+                  <Link to="/products/other">Other</Link>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item cart" onClick={toggleCart}>
+              <span className='cart-image'>Cart</span>
+              {cartOpen && <Cart />}
             </li>
           </ul>
         </nav>
-        <h1>Hello, World!</h1>
-        <p>API Status: {APIHealth}</p>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <div className="app-container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route exact path="/products" component={Products} />
+            <Route path="/products/accounts" component={Accounts} />
+            <Route path="/products/skins" component={Skins} />
+            <Route path="/products/other" component={Other} />
+            <Route path="/cart" component={Cart} />
+          </Switch>
+          <h1>Hello, World!</h1>
+          <p>API Status: {APIHealth}</p>
+        </div>
       </div>
     </Router>
   );
-}
+};
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
+export default App;
