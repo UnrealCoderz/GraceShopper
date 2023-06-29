@@ -7,12 +7,12 @@ import Register from './users/Register';
 import Logout from './users/Logout';
 import Cart from './Cart';
 
-const Home = () => <h2>Home</h2>;
 const About = () => <h2>About</h2>;
 const Products = () => <h2>Products</h2>;
 const Accounts = () => <h2>Accounts</h2>;
 const Skins = () => <h2>Skins</h2>;
 const Other = () => <h2>Other</h2>;
+const Users = () => <h2>Users</h2>;
 
 function Home({ isLoggedIn, email }) {
   return (
@@ -25,14 +25,6 @@ function Home({ isLoggedIn, email }) {
       )}
     </div>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 const App = () => {
