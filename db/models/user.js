@@ -7,6 +7,8 @@ module.exports = {
   createUser,
   getUserById,
   getUser,
+  getUserByEmail,
+  getUserByUsername,
 };
 
 async function createUser({ email, username, password, isAdmin }) {
@@ -60,6 +62,38 @@ async function getUserById(userId) {
       return null;
     }
     delete user[0].password;
+
+    return user[0];
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByUsername(userName) {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const { rows: user } = await client.query(
+      `SELECT *
+    FROM users
+    WHERE username=$1`,
+      [userName]
+    );
+
+    return user[0];
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByEmail(email) {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const { rows: user } = await client.query(
+      `SELECT *
+    FROM users
+    WHERE email=$1`,
+      [email]
+    );
 
     return user[0];
   } catch (error) {
