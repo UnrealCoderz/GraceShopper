@@ -4,7 +4,6 @@ const express = require("express");
 const { createUser, getUser, getUserByUsername } = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 
-const { requireUser } = require("./utils");
 const { getUserByEmail } = require("../db/models/user");
 const router = express.Router();
 
@@ -18,7 +17,7 @@ router.post("/register", async (req, res, next) => {
     if (_user) {
       next({
         error: "UserNameError",
-        message: `User ${username} is already taken.`,
+        message: `User ${username} is already taken, Be Original.`,
         name: "UserNameError",
       });
     }
@@ -27,7 +26,7 @@ router.post("/register", async (req, res, next) => {
     if (userEmail) {
       next({
         error: "EmailError",
-        message: `Email ${email} is already in use`,
+        message: `Email ${email} is already in use, Did you Forget?`,
         name: "EmailError",
       });
     }
@@ -37,7 +36,7 @@ router.post("/register", async (req, res, next) => {
     if (password.length < 8) {
       next({
         error: "PasswordError",
-        message: "Password Too Short!",
+        message: "Password Too Short! Are you trying to get hacked?",
         name: "PasswordError",
       });
     }
@@ -66,7 +65,7 @@ router.post("/login", async (req, res, next) => {
   if (!email || !password) {
     next({
       name: "MissingCredentialsError",
-      message: "Please supply both a email and password",
+      message: "Please supply both a email and password, Do Better",
     });
   }
   try {
@@ -86,7 +85,7 @@ router.post("/login", async (req, res, next) => {
     } else {
       next({
         name: "IncorrectCredentialsError",
-        message: "Email or Password is incorrect",
+        message: "Email or Password is incorrect, Not gonna say which Though",
       });
     }
   } catch (error) {
@@ -94,7 +93,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/me", requireUser, async (req, res, next) => {
+router.get("/me", async (req, res, next) => {
   const user = await getUserByUsername(req.user.username);
 
   res.send(user);
