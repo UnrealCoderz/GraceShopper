@@ -6,8 +6,13 @@ const {
   updateProduct,
   getAllProductsBySellerId,
   getProductById,
+  deleteProduct,
 } = require("../db/models/products");
 const { requireUser } = require("./utils");
+const {
+  getProductsInCartById,
+  addProductToCart,
+} = require("../db/models/productsInCart");
 
 router.get("/", async (req, res) => {
   const Products = await getAllProducts();
@@ -57,18 +62,50 @@ router.patch("/:productId", async (req, res, next) => {
 });
 
 router.delete("/:productId", requireUser, async (req, res, next) => {
-try{
-   const Product = await getProductById(req.params.productId)
-   if(req.user.id !== Product.usersid) {
-    res.status(403)
-    next({
-      error: "userError",
-      message: `User ${req.user.id} is not allowed to delete this product`,
-      name: "User"
-    })
+  try {
+    const Product = await getProductById(req.params.productId);
+    if (req.user.id !== Product.usersid) {
+      res.status(403);
+      next({
+        error: "userError",
+        message: `User ${req.user.id} is not allowed to delete this product`,
+        name: "User",
+      });
 
-    
-   }
-}
+      const deletedProduct = await deleteProduct(req.params.productId);
+      res.send(deletedProduct);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
+router.post("/:productId/cart", requireUser, async (req, res, next) => {
+  try {
+    const { productId, cartId, quantity } = req.body;
+    const ProductId = req.params.productId;
+
+    const check = await getProductsInCartById(ProductId);
+    if (
+      check.filter((Prod) => {
+        return ProductId === Prod.productId;
+      }).length > 0
+    ) {
+      next({
+        error: "DuplicateError",
+        message: `Product ID ${ProductId} already exists in Cart ID ${cartId}`,
+        name: "Duplicate",
+      });
+    }
+
+    const PR = await addProductToCart({
+      productId,
+      cartId,
+      quantity,
+    });
+
+    res.send(PR);
+  } catch (error) {
+    next(error);
+  }
 });
