@@ -44,7 +44,8 @@ async function buildTables() {
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
       price INTEGER,
-      "categoryid" INTEGER REFERENCES categories(id)
+      "categoryid" INTEGER REFERENCES categories(id),
+      active BOOLEAN DEFAULT true
     );
     CREATE TABLE products_in_cart(
       id SERIAL PRIMARY KEY,
