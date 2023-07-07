@@ -119,6 +119,16 @@ async function addProductToCart(carts) {
   return newCart;
 }
 
+async function deleteProduct(productId) {
+  const { rows: product } = await client.query(`
+    UPDATE products
+    SET active=false
+    WHERE id=$1;
+  `, [productId])
+
+  return product;
+}
+
 module.exports = {
   // add your database adapter fns here
   getAllProducts,
@@ -126,4 +136,5 @@ module.exports = {
   updateProduct,
   getAllProductsBySellerId,
   getProductById,
+  deleteProduct
 };
