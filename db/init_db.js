@@ -44,7 +44,8 @@ async function buildTables() {
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
       price INTEGER,
-      "categoryid" INTEGER REFERENCES categories(id)
+      "categoryid" INTEGER REFERENCES categories(id),
+      active BOOLEAN DEFAULT true
     );
     CREATE TABLE products_in_cart(
       id SERIAL PRIMARY KEY,
@@ -56,14 +57,10 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       "usersid" INTEGER REFERENCES users(id)
     );
-    CREATE TABLE sales(
-      id SERIAL PRIMARY KEY,
-      "usersid" INTEGER REFERENCES users(id),
-      "productsid" INTEGER REFERENCES products(id)
-    );
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
-      "usersid" INTEGER REFERENCES users(id),
+     "buyerId" INTEGER REFERENCES users(id) ,
+     "sellerId" INTEGER REFERENCES users(id) ,
       "products_in_cartid" INTEGER REFERENCES products_in_cart(id)
     );
     `);

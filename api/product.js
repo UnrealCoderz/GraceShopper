@@ -7,6 +7,7 @@ const {
   getAllProductsBySellerId,
   getProductById,
 } = require("../db/models/products");
+const { requireUser } = require("./utils");
 
 router.get("/", async (req, res) => {
   const Products = await getAllProducts();
@@ -55,6 +56,19 @@ router.patch("/:productId", async (req, res, next) => {
   }
 });
 
-// router.delete("/:productId", async (req, res, next) => {
+router.delete("/:productId", requireUser, async (req, res, next) => {
+try{
+   const Product = await getProductById(req.params.productId)
+   if(req.user.id !== Product.usersid) {
+    res.status(403)
+    next({
+      error: "userError",
+      message: `User ${req.user.id} is not allowed to delete this product`,
+      name: "User"
+    })
 
-// })
+    
+   }
+}
+
+});
