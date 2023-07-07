@@ -17,14 +17,27 @@ const Users = () => <h2>Users</h2>;
 function Home({ isLoggedIn, email }) {
   return (
     <div>
-      <h2>Home</h2>
+      <h1>Welcome to UnrealBoosters!</h1>
       {isLoggedIn ? (
         <div>Welcome, {email}!</div>
       ) : (
-        <div>Please <Link to="/users/login">login</Link> or <Link to="/users/register">register</Link>.</div>
+        <p>Please <Link to="/users/login">login</Link> or <Link to="/users/register">register</Link>.</p>
       )}
+      <h2>Today's featured product:</h2>
+      <FeaturedProduct featuredProductName={'placeholderName'}/>
     </div>
   );
+}
+
+function FeaturedProduct(props) {
+  const featuredProductName = props.featuredProductName;
+  return (
+    <div className='featured-product-container'>
+      <h3>{featuredProductName}</h3>
+      <img src='../images/placeholder_img.PNG'/>
+      <p>This is a placeholder description, I'm sure we'll add more later</p>
+    </div>
+  )
 }
 
 const App = () => {
@@ -105,8 +118,8 @@ const App = () => {
             <Route path="/products/other" component={Other} />
             <Route path="/cart" component={Cart} />
           </Switch>
-          <h1>Hello, World!</h1>
-          <p>API Status: {APIHealth}</p>
+          {/*<h1>Hello, World!</h1>
+          <p>API Status: {APIHealth}</p>*/}
         </div>
       </div>
     </Router>
