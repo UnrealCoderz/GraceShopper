@@ -6,18 +6,19 @@ async function createNewProduct(
   name,
   description,
   price,
-  categoryid = 0
+  categoryid,
+  active
 ) {
   try {
     const {
       rows: [product],
     } = await client.query(
       `
-            INSERT INTO products ("usersid", name, description, price, "categoryid")
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO products ("usersid", name, description, price, "categoryid", active)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *;
         `,
-      [usersid, name, description, price, categoryid]
+      [usersid, name, description, price, categoryid, active]
     );
 
     return product;
@@ -56,7 +57,7 @@ async function updateProduct(id, fields = {}) {
 async function getAllProducts() {
   try {
     const { rows } = await client.query(`
-            SELECT id, "usersid", name, description, price, "categoryid"
+            SELECT *
             FROM products;
         `);
 
@@ -65,6 +66,7 @@ async function getAllProducts() {
     throw error;
   }
 }
+
 
 async function getAllProductsBySellerId(userId) {
   try {
@@ -121,8 +123,7 @@ async function addProductToCart(carts) {
 
 async function deleteProduct(productId) {
   const { rows: product } = await client.query(`
-    UPDATE products
-    SET active=false
+    DELETE FROM products
     WHERE id=$1;
   `, [productId])
 
