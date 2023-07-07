@@ -56,14 +56,10 @@ async function buildTables() {
       id SERIAL PRIMARY KEY,
       "usersid" INTEGER REFERENCES users(id)
     );
-    CREATE TABLE sales(
-      id SERIAL PRIMARY KEY,
-      "usersid" INTEGER REFERENCES users(id),
-      "productsid" INTEGER REFERENCES products(id)
-    );
     CREATE TABLE orders(
       id SERIAL PRIMARY KEY,
-      "usersid" INTEGER REFERENCES users(id),
+     "buyerId" INTEGER REFERENCES users(id) ,
+     "sellerId" INTEGER REFERENCES users(id) ,
       "products_in_cartid" INTEGER REFERENCES products_in_cart(id)
     );
     `);

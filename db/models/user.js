@@ -100,3 +100,21 @@ async function getUserByEmail(email) {
     throw error;
   }
 }
+
+async function createFufilledOrders(BuyerId, SellerId) {
+  try {
+    const { rows: Order } = await client.query(
+      `
+      INSERT INTO orders("buyerId", "sellerId")
+      VALUES($1, $2)
+      RETURNING *
+
+      `,
+      [BuyerId, SellerId]
+    );
+
+    return Order;
+  } catch (error) {
+    throw error;
+  }
+}
