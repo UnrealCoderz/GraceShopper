@@ -5,20 +5,19 @@ module.exports = {
   getProductsInCartById,
   deleteProductsInCart,
   updateProductsInCart,
+  getProductsInCartByCartId
 };
 
 async function addProductToCart({ productId, cartId, quantity }) {
   try {
     const { rows: Products } = await client.query(
       `
-    INSERT INTO products_in_cart("productid", "cartid", quantity)
+    INSERT INTO products_in_cart("productsid", "cartsid", quantity)
     VALUES($1, $2, $3)
-    ON CONFLICT ("productid", "cartid") DO NOTHING
-    RETURNING *
-    `,
-      [productId, cartId, quantity]
+    RETURNING *;
+    `, [productId, cartId, quantity]
     );
-    return Products[0];
+    return Products;
   } catch (error) {
     throw error;
   }
@@ -33,6 +32,20 @@ async function getProductsInCartById(id) {
     return Product[0];
   } catch (error) {
     throw error;
+  }
+}
+
+async function getProductsInCartByCartId(cartsid) {
+  try {
+    const { rows: products } = await client.query(`
+      SELECT *
+      FROM products_in_cart
+      WHERE "cartsid"=${cartsid};
+    `);
+    return products;
+  }
+  catch (error) {
+    throw (error);
   }
 }
 
