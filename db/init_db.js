@@ -49,11 +49,11 @@ async function buildTables() {
     );
     CREATE TABLE products(
       id SERIAL PRIMARY KEY,
-      "usersid" INTEGER REFERENCES users(id),
+      "sellerid" INTEGER REFERENCES users(id),
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
       price INTEGER,
-      "categoryid" INTEGER REFERENCES categories(id),
+      "categoryid" INTEGER,
       active BOOLEAN DEFAULT true
     );
     CREATE TABLE products_in_cart(
@@ -82,13 +82,13 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     console.log('creating users...')
-    const adminUser = await createUser( {email: 'admin@admin.admin', username: 'administrator', password: 'adminspassword'}, true);
+    const adminUser = await createUser({ email: 'admin@admin.admin', username: 'administrator', password: 'adminspassword' }, true);
     console.log('adminuser is ', adminUser);
-    const user1 = await createUser( {email: 'user1@user1.user1', username: 'user1', password: 'user1spassword'});
+    const user1 = await createUser({ email: 'user1@user1.user1', username: 'user1', password: 'user1spassword' });
     console.log('user1 is ', user1);
-    const user2 = await createUser( {email: 'user2@user2.user2', username: 'user2', password: 'user2spassword'});
+    const user2 = await createUser({ email: 'user2@user2.user2', username: 'user2', password: 'user2spassword' });
     console.log('user2 is ', user2);
-    const user3 = await createUser( {email: 'user3@user3.user3', username: 'user3', password: 'user3spassword'});
+    const user3 = await createUser({ email: 'user3@user3.user3', username: 'user3', password: 'user3spassword' });
     console.log('user3 is ', user3);
     console.log('successfully created users');
 
@@ -101,31 +101,31 @@ async function populateInitialData() {
 
     console.log('creating products...');
     const product1 = await createNewProduct(
-      2, 
-      'Final Fantasy XIV account', 
+      2,
+      'Final Fantasy XIV account',
       "This account has all classes fully leveled and has cleared all Ultimate Raids up to 6.4. Also includes the Regalia Type-G mount",
       500,
-      1, 
+      1,
       true
     );
     console.log('product1 is ', product1);
     const product2 = await createNewProduct(
-      3, 
-      'Valorant account', 
+      3,
+      'Valorant account',
       "This account has the highest rank in ranked mode, pew pew",
       2000,
-      1, 
+      1,
       true
-      );
+    );
     console.log('product2 is ', product2)
     const product3 = await createNewProduct(
-      3, 
-      'Genshin Impact Account', 
+      3,
+      'Genshin Impact Account',
       "This account has every 5-star character released up to 3.8, as well as each character's personal weapons",
       10000,
-      1, 
+      1,
       true
-      );
+    );
     console.log('product3 is ', product3);
     console.log('successfully created products');
 
@@ -142,12 +142,12 @@ async function populateInitialData() {
     console.log('successfully created new carts');
 
     console.log('adding some products to cart with id 2...');
-    await addProductToCart({productId: 1, cartId: 2, quantity: 1});
-    await addProductToCart({productId: 2, cartId: 2, quantity: 1});
+    await addProductToCart({ productId: 1, cartId: 2, quantity: 1 });
+    await addProductToCart({ productId: 2, cartId: 2, quantity: 1 });
     const productsInCart2 = await getProductsInCartByCartId(2);
     console.log('productsInCart2 is ', productsInCart2);
 
-    
+
 
 
 

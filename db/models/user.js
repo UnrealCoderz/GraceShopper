@@ -12,6 +12,7 @@ module.exports = {
 };
 
 async function createUser({ email, username, password }, isAdmin = false) {
+  console.log(username)
   const {
     rows: [user],
   } = await client.query(

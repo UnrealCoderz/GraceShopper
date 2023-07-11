@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post("/register", async (req, res, next) => {
   const { email, username, password } = req.body;
+  console.log(req.body, 'hit')
   const isAdmin = false;
 
   try {
@@ -31,7 +32,7 @@ router.post("/register", async (req, res, next) => {
       });
     }
 
-    const user = await createUser({ email, username, password, isAdmin });
+    const user = await createUser(req.body);
 
     if (password.length < 8) {
       next({
