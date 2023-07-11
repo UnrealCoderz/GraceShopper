@@ -29,7 +29,7 @@ async function createNewProduct(
 
 async function updateProduct(id, fields = {}) {
   const setString = Object.keys(fields)
-    .map((key, index) => `"${key}" ='${fields[key]}'`)
+    .map((key, index) => `"${key}" = $${index + 1}`)
     .join(", ");
 
   if (setString.length === 0) {
@@ -45,10 +45,10 @@ async function updateProduct(id, fields = {}) {
             WHERE id=${id}
             RETURNING *;
         `,
-      []
+      [...Object.values(fields)]
     );
 
-    return user;
+    return product;
   } catch (error) {
     throw error;
   }
@@ -97,7 +97,7 @@ async function getProductById(productId) {
     if (rows.length === 0) {
       return null;
     } else {
-      return rows;
+      return rows[0];
     }
   } catch (error) {
     throw error;

@@ -38,8 +38,7 @@ router.post("/", async (req, res, next) => {
 
 router.patch("/:productId", async (req, res, next) => {
   try {
-    const id = req.params.productId;
-    const Product = await getProductById(id);
+    const Product = await getProductById(req.params.productId);
     const { name, description, price } = req.body;
 
     const updateFields = {};
@@ -54,26 +53,31 @@ router.patch("/:productId", async (req, res, next) => {
       updateFields.price = price;
     }
 
-    const updatedProduct = await updateProduct(id, ...updateFields);
+    console.log(updateFields);
+    const updatedProduct = await updateProduct(req.params.productId, updateFields);
     res.send(updatedProduct);
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/:productId", requireUser, async (req, res, next) => {
+router.delete("/:productId/:sellerId", requireUser, async (req, res, next) => {
   try {
+    console.log(req.params)
+    console.log(req.user)
     const Product = await getProductById(req.params.productId);
-    if (req.user.id !== Product.usersid) {
+    console.log(Product)
+    if (req.user.id === req.params.sellerId) {
+      const deletedProduct = await deleteProduct(req.params.productId);
+      res.send(deletedProduct);
+      console.log('deleted product for the seller')
+    } else {
       res.status(403);
       next({
         error: "userError",
         message: `User ${req.user.id} is not allowed to delete this product`,
         name: "User",
       });
-
-      const deletedProduct = await deleteProduct(req.params.productId);
-      res.send(deletedProduct);
     }
   } catch (error) {
     next(error);
@@ -109,3 +113,5 @@ router.post("/:productId/cart", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
+module.exports = router;

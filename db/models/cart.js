@@ -1,18 +1,17 @@
 const client = require("../client");
 
 module.exports = {
-  getCartById,
-  getCartByUser,
+  getCartByUserId,
   createNewCart
 };
 
-async function createNewCart(usersid, status) {
+async function createNewCart(userId, status) {
   try {
     const { rows: [newCart] } = await client.query(`
-    INSERT INTO carts ("usersid", status)
+    INSERT INTO carts ("userId", status)
     VALUES ($1, $2)
     RETURNING *;
-    `, [usersid, status]);
+    `, [userId, status]);
     return newCart;
   }
   catch (error) {
@@ -20,21 +19,21 @@ async function createNewCart(usersid, status) {
   }
 }
 
-async function getCartById(cartId) {
-  try {
-    const { rows: cart } = await client.query(
-      `SELECT * 
-      FROM carts
-      WHERE id=${cartId}`
-    );
+// async function getCartById(cartId) {
+//   try {
+//     const { rows: cart } = await client.query(
+//       `SELECT * 
+//       FROM carts
+//       WHERE id=${cartId}`
+//     );
 
-    return cart[0];
-  } catch (error) {
-    throw error;
-  }
-}
+//     return cart[0];
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
-async function getCartByUser(userId) {
+async function getCartByUserId(userId) {
   try {
     const { rows: cart } = await client.query(
       `SELECT * FROM carts
