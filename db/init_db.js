@@ -49,7 +49,7 @@ async function buildTables() {
     );
     CREATE TABLE products(
       id SERIAL PRIMARY KEY,
-      "sellerid" INTEGER REFERENCES users(id),
+      "sellerId" INTEGER REFERENCES users(id),
       name VARCHAR(255) UNIQUE NOT NULL,
       description TEXT NOT NULL,
       price INTEGER,

@@ -8,7 +8,7 @@ module.exports = {
 async function createNewCart(userId, status) {
   try {
     const { rows: [newCart] } = await client.query(`
-    INSERT INTO carts ("userId", status)
+    INSERT INTO carts ("usersid", status)
     VALUES ($1, $2)
     RETURNING *;
     `, [userId, status]);
