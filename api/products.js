@@ -22,12 +22,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res, next) => {
   const { name, description, price } = req.body;
-  const userId = req.user.id;
+  const sellerId = req.user.id;
   const categoryId = req.user.id;
   // dont Know what we are doing for category Id yet so ignore that
 
   const newProduct = await createNewProduct(
-    userId,
+    sellerId,
     name,
     description,
     price,
@@ -63,11 +63,11 @@ router.patch("/:productId", async (req, res, next) => {
 
 router.delete("/:productId/:sellerId", requireUser, async (req, res, next) => {
   try {
-    console.log(req.params)
-    console.log(req.user)
+    console.log('req.params is ', req.params)
+    console.log('req.user is ', req.user)
     const Product = await getProductById(req.params.productId);
-    console.log(Product)
-    if (req.user.id === req.params.sellerId) {
+    console.log('product is ', Product)
+    if (req.user.id === Product.usersid) {
       const deletedProduct = await deleteProduct(req.params.productId);
       res.send(deletedProduct);
       console.log('deleted product for the seller')
