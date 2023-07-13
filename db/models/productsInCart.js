@@ -5,7 +5,7 @@ module.exports = {
   getProductsInCartById,
   deleteProductsInCart,
   updateProductsInCart,
-  getProductsInCartByCartId
+  getProductsInCartByCartId,
 };
 
 async function addProductToCart({ productId, cartId, quantity }) {
@@ -15,7 +15,8 @@ async function addProductToCart({ productId, cartId, quantity }) {
     INSERT INTO products_in_cart("productsid", "cartsid", quantity)
     VALUES($1, $2, $3)
     RETURNING *;
-    `, [productId, cartId, quantity]
+    `,
+      [productId, cartId, quantity]
     );
     return Products;
   } catch (error) {
@@ -43,9 +44,8 @@ async function getProductsInCartByCartId(cartsid) {
       WHERE "cartsid"=${cartsid};
     `);
     return products;
-  }
-  catch (error) {
-    throw (error);
+  } catch (error) {
+    throw error;
   }
 }
 

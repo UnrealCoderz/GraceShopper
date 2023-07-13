@@ -1,60 +1,69 @@
 import React from "react";
-import { useHistory } from "react-router";
-import { LoginPerson } from "../../api";
-import { Register } from "../index";
+import { useHistory } from "react-router-dom";
+import { LoginPerson } from "../../api/index";
+import { useState } from "react";
 
+const Login = ({ setToken }) => {
+  const navigate = useHistory();
 
-const Login = ({ setIsLoggedIn, setEmail }) => {
-    const navigate = useHistory();
-  
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const loginEmail = event.target[0].value;
-      const result = await LoginPerson(event);
-  
-      if (result.token) {
-        setIsLoggedIn(true);
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("email", loginEmail);
-        setEmail(loginEmail);
-      } else {
-        alert(result.error);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const NewUser = {
+        email: email,
+
+        password: password,
+      };
+      const newUserToken = await LoginPerson(NewUser);
+      if (newUserToken.error) {
+        throw new Error(newUserToken.message);
       }
-  
-      navigate("/");
+
+      setToken(newUserToken);
+      if (newUserToken) {
+        navigate.push("/Home");
+      }
+    } catch (err) {
+      setErrorMessage(err.message);
     }
-    return (
-      <>
-        <div className="loginContainer">
-          <form onSubmit={handleSubmit}>
-            <h1>Log into Your Account</h1>
-            <div className="loginBox">
-              <label className="inputLabels">
-                Email:
-                <input
-                  className="inputBox"
-                  id="email"
-                  type="text"
-                  placeholder="Your Email Here"
-                />
-              </label>
-              <label className="inputLabels">
-                Password:
-                <input
-                  className="inputBox"
-                  id="password"
-                  type="password"
-                  placeholder="Your Password Here"
-                />
-              </label>
-              <button id="submit" type="Submit">
-                SUBMIT
-              </button>
-            </div>
-          </form>
+  }
+
+  return (
+    <div className="loginContainer">
+      <form onSubmit={handleSubmit}>
+        <h1>Login</h1>
+        <div className="loginBox">
+          <label className="inputLabels">Enter Email:</label>
+          <input
+            className="inputBox"
+            type="text"
+            name="email"
+            value={email}
+            placeholder="Enter Your Email"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          ></input>
+          <label className="inputLabels">Create Password:</label>
+          <input
+            className="inputBox"
+            placeholder="8 Characters Minimum"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          ></input>
+
+          <p>{errorMessage}</p>
+          <button>Login</button>
         </div>
-        <Register setIsLoggedIn={setIsLoggedIn} setEmail={setEmail} />
-      </>
-    );
-  };
-  export default Login;
+      </form>
+    </div>
+  );
+};
+export default Login;

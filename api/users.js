@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/register", async (req, res, next) => {
   const { email, username, password } = req.body;
-  console.log(req.body, 'hit')
+  console.log(req.body, "hit");
   const isAdmin = false;
 
   try {
@@ -49,7 +49,7 @@ router.post("/register", async (req, res, next) => {
       },
       process.env.JWT_SECRET
     );
-
+    console.log("we made it");
     res.send({
       message: "Thanks for signing up",
       token,
