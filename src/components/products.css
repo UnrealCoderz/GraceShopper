@@ -1,0 +1,21 @@
+.products-page {
+    margin: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px;
+}
