@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import { getAPIHealth } from '../axios-services';
-import '../style/App.css';
-import Login from './users/Login'; 
-import Register from './users/Register';
-import Logout from './users/Logout';
-import Cart from './Cart';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { getAPIHealth } from "../axios-services";
+import "../style/App.css";
+import Login from "./users/Login";
+import Register from "./users/Register";
+import Logout from "./users/Logout";
+import Cart from "./Cart";
 
 const About = () => <h2>About</h2>;
 const Products = () => <h2>Products</h2>;
@@ -18,13 +18,17 @@ function Home({ isLoggedIn, email }) {
   return (
     <div>
       <h1>Welcome to UnrealBoosters!</h1>
+
       {isLoggedIn ? (
         <div>Welcome, {email}!</div>
       ) : (
-        <p>Please <Link to="/users/login">login</Link> or <Link to="/users/register">register</Link>.</p>
+        <p>
+          Please <Link to="/users/login">login</Link> or{" "}
+          <Link to="/users/register">register</Link>.
+        </p>
       )}
       <h2>Today's featured product:</h2>
-      <FeaturedProduct featuredProductName={'placeholderName'}/>
+      <FeaturedProduct featuredProductName={"placeholderName"} />
     </div>
   );
 }
@@ -32,20 +36,19 @@ function Home({ isLoggedIn, email }) {
 function FeaturedProduct(props) {
   const featuredProductName = props.featuredProductName;
   return (
-    <div className='featured-product-container'>
+    <div className="featured-product-container">
       <h3>{featuredProductName}</h3>
-      <img src='../images/placeholder_img.PNG'/>
+      <img src="../images/placeholder_img.PNG" />
       <p>This is a placeholder description, I'm sure we'll add more later</p>
     </div>
-  )
+  );
 }
 
 const App = () => {
-  const [APIHealth, setAPIHealth] = useState('');
+  const [APIHealth, setAPIHealth] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
-  const [cartOpen, setCartOpen] = useState(false)
-
+  const [cartOpen, setCartOpen] = useState(false);
+  const [token, setToken] = useState("");
   const toggleCart = () => {
     setCartOpen(!cartOpen);
   };
@@ -53,7 +56,7 @@ const App = () => {
   useEffect(() => {
     const getAPIStatus = async () => {
       const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? 'api is up! :D' : 'api is down :/');
+      setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
     };
 
     getAPIStatus();
@@ -65,10 +68,17 @@ const App = () => {
         <nav className="navbar">
           <ul className="nav-list">
             <li className="nav-item">
+              {token && <p>{token.token}</p>}
               <Link to="/">Home</Link>
             </li>
             <li className="nav-item">
               <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/Login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
             </li>
             <li className="nav-item dropdown">
               <span className="dropdown-toggle">Products</span>
@@ -85,31 +95,31 @@ const App = () => {
               </ul>
             </li>
             <li className="nav-item cart" onClick={toggleCart}>
-              <span className='cart-image'>Cart</span>
+              <span className="cart-image">Cart</span>
               {cartOpen && <Cart />}
             </li>
           </ul>
         </nav>
-<div className="app-container">
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/login">
-            <Login setIsLoggedIn={setIsLoggedIn} setEmail={setEmail} />
-          </Route>
-          <Route path="/register">
-            <Register setIsLoggedIn={setIsLoggedIn} setEmail={setEmail} />
-          </Route>
-          <Route path="/logout">
-            <Logout setIsLoggedIn={setIsLoggedIn} />
-          </Route>
-          <Route path="/">
-            <Home isLoggedIn={isLoggedIn} email={email}/>
-          </Route>
+        <div className="app-container">
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/users">
+              <Users />
+            </Route>
+            <Route path="/login">
+              <Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
+            </Route>
+            <Route path="/register">
+              <Register setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
+            </Route>
+            <Route path="/logout">
+              <Logout setIsLoggedIn={setIsLoggedIn} />
+            </Route>
+            <Route path="/">
+              <Home isLoggedIn={isLoggedIn} />
+            </Route>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route exact path="/products" component={Products} />
