@@ -41,4 +41,20 @@ async function RegisterPerson(UserObj) {
   }
 }
 
-export { RegisterPerson, LoginPerson };
+const myData = async (token) => {
+  try {
+    const response = await fetch(`${API_URL}/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export { RegisterPerson, LoginPerson, myData };
