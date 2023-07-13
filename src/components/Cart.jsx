@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router-dom';
 import productsData from './seedData';
+import './cart.css';
 
-const Cart = () => {
-    const [open, setOpen] = useState(false);
-    const [cartItems, setCartItems] = useState([
-        { id: 1, creatorid: 1, name: 'Product 1', description: 'Product 1 info', price: 10, image: 'item1.png', categoryId: 1, },
-        { id: 2, creatorid: 2, name: 'Product 2', description: 'Product 2 info', price: 15, image: 'item2.png', categoryId: 2, },
-        { id: 3, creatorid: 3, name: 'Product 3', description: 'Product 3 info', price: 20, image: 'item3.png', categoryId: 3, },
-    ]);
+const Cart = ({ isOpen, onClose, removeFromCart, setCartCount }) => {
+    const [cartItems, setCartItems] = useState(productsData);
+    // const [cartItems, setCartItems] = useState([]);
     const navigate = useHistory();
 
     const removeItem = (itemId) => {
         setCartItems(cartItems.filter((item) => item.id !== itemId));
+        setCartCount(cartItems.length)
+        removeFromCart()
     };
 
     const calculateTotalCost = () => {
@@ -25,27 +25,41 @@ const Cart = () => {
         console.log(`View item with ID: ${itemId}`);
     };
 
-    return (
-        <div className={`cart-sidebar ${open ? 'open' : ''}`}>
-            <h2>Cart</h2>
-            {cartItems.length === 0 ? (
-                <p>No items in the cart.</p>
-            ) : (
-                <ul>
-                    {cartItems.map((item) => (
-                        <li key={item.id}>
-                            <span className={item.image} onClick={() => handleItemClick(item.id)}>
-                                <img src={item.image} alt={item.name} />
-                            </span>
-                            <span>{item.name}</span>
-                            <span>${item.price}</span>
-                            <button onClick={() => removeItem(item.id)}>Remove</button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <p>Total: ${calculateTotalCost()}</p>
-        </div>
+    useEffect(() => {
+        setCartCount(cartItems.length)
+    }, []);
+
+    if (!isOpen) {
+        return null;
+    }
+
+    return ReactDOM.createPortal(
+        <div className="cart-modal">
+            <div className="cart-content">
+                <h2 className="cart-title">Cart</h2>
+                {cartItems.length === 0 ? (
+                    <p>No items in the cart.</p>
+                ) : (
+                    <ul>
+                        {cartItems.map((item) => (
+                            <li key={item.id}>
+                                <span className={item.image} onClick={() => handleItemClick(item.id)}>
+                                    <img src={item.image} alt={item.name} />
+                                </span>
+                                <span>{item.name}</span>
+                                <span>${item.price}</span>
+                                <button onClick={() => removeItem(item.id)}>Remove</button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <p>Total: ${calculateTotalCost()}</p>
+            </div>
+            <button className="close-button" onClick={onClose}>
+                Close
+            </button>
+        </div>,
+        document.getElementById('cart-root') // Assuming you have a div with id="cart-root" in your HTML
     );
 };
 
