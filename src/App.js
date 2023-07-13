@@ -9,6 +9,7 @@ import Logout from './components/Logout';
 import Cart from './components/Cart';
 import Products from './components/Products'
 import SingleProduct from './components/SingleProduct'
+import { myData } from './api/index'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,6 +17,7 @@ const App = () => {
   const [cartCount, setCartCount] = useState(0);
   const [singleProductPath, setSingleProductPath] = useState('');
   const [token, setToken] = useState("");
+  const [user, setUser] = useState(null);
   const openCart = () => {
     setCartOpen(!isCartOpen);
   };
@@ -32,8 +34,15 @@ const App = () => {
     cartCount <= 0 ? setCartCount(0) : setCartCount(cartCount - 1);
   };
 
-  // useEffect(() => {
-  // }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await myData(token);
+      setUser(userData);
+    };
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
 
   return (
     <Router>
