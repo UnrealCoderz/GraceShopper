@@ -6,32 +6,13 @@ import Login from "./users/Login";
 import Register from "./users/Register";
 import Logout from "./users/Logout";
 import Cart from "./Cart";
-
+import { myData } from "../api";
 const About = () => <h2>About</h2>;
 const Products = () => <h2>Products</h2>;
 const Accounts = () => <h2>Accounts</h2>;
 const Skins = () => <h2>Skins</h2>;
 const Other = () => <h2>Other</h2>;
 const Users = () => <h2>Users</h2>;
-
-function Home({ isLoggedIn, email }) {
-  return (
-    <div>
-      <h1>Welcome to UnrealBoosters!</h1>
-
-      {isLoggedIn ? (
-        <div>Welcome, {email}!</div>
-      ) : (
-        <p>
-          Please <Link to="/users/login">login</Link> or{" "}
-          <Link to="/users/register">register</Link>.
-        </p>
-      )}
-      <h2>Today's featured product:</h2>
-      <FeaturedProduct featuredProductName={"placeholderName"} />
-    </div>
-  );
-}
 
 function FeaturedProduct(props) {
   const featuredProductName = props.featuredProductName;
@@ -49,6 +30,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [token, setToken] = useState("");
+  const [user, setUser] = useState(null);
   const toggleCart = () => {
     setCartOpen(!cartOpen);
   };
@@ -58,9 +40,18 @@ const App = () => {
       const { healthy } = await getAPIHealth();
       setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
     };
-
     getAPIStatus();
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await myData(token);
+      setUser(userData);
+    };
+    if (token) {
+      fetchUser();
+    }
+  }, [token]);
 
   return (
     <Router>
