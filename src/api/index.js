@@ -13,7 +13,7 @@ async function LoginPerson(UserObj) {
       }),
     });
     const result = await response.json();
-    console.log(result);
+
     return result.token;
   } catch (error) {
     throw error;

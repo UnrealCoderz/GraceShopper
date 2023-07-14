@@ -22,8 +22,9 @@ const Login = ({ setToken }) => {
       }
 
       setToken(newUserToken);
+      localStorage.setItem("THe Goods", newUserToken.token);
       if (newUserToken) {
-        navigate.push("/home");
+        navigate.push("/");
       }
     } catch (err) {
       setErrorMessage(err.message);
