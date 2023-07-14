@@ -22,6 +22,7 @@ const Register = ({ setToken }) => {
         throw new Error(newUserToken.message);
       }
       setToken(newUserToken);
+      localStorage.setItem("The Goods", newUserToken.token);
       if (newUserToken) {
         navigate.push("/Home");
       }
