@@ -23,7 +23,7 @@ const Register = ({ setToken }) => {
       }
       setToken(newUserToken);
       if (newUserToken) {
-        navigate.push("/Home");
+        navigate.push("/home");
       }
     } catch (err) {
       setErrorMessage(err.message);

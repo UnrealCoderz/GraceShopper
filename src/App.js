@@ -8,8 +8,8 @@ import Register from './components/Register';
 import Logout from './components/Logout';
 import Cart from './components/Cart';
 import Products from './components/Products'
-import SingleProduct from './components/SingleProduct'
 import { myData } from './api/index'
+import productsData from './components/seedData';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -77,15 +77,24 @@ const App = () => {
         <div className="app-container">
           <Cart isOpen={isCartOpen} onClose={closeCart} removeFromCart={removeFromCart} setCartCount={setCartCount} />
           <Switch>
-            <Route path="/"><Home user={user} token={token} isLoggedIn={isLoggedIn} /></Route>
-            <Route path="/about"><About /></Route>
-            <Route path="/login"><Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} /></Route>
-            <Route path="/register"><Register setIsLoggedIn={setIsLoggedIn} setToken={setToken} /></Route>
-            <Route path="/logout"><Logout setIsLoggedIn={setIsLoggedIn} /></Route>
-            {/* <Route path="/users"><Users /></Route> */}
-            <Route path="/products"><Products addToCart={addToCart} /></Route>
-            {/* <Route path="/product"><Products addToCart={addToCart} /></Route>
-            <Route exact path="/product" component={SingleProduct} addToCart={addToCart} /> */}
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/login">
+              <Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
+            </Route>
+            <Route path="/register">
+              <Register setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
+            </Route>
+            <Route path="/logout">
+              <Logout setIsLoggedIn={setIsLoggedIn} />
+            </Route>
+            <Route exact path="/">
+              <Home user={user} token={token} />
+            </Route>
+            <Route path="/products">
+              <Products user={user} productsData={productsData} addToCart={addToCart} />
+            </Route>
           </Switch >
         </div >
       </div >

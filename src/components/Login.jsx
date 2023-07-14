@@ -14,7 +14,6 @@ const Login = ({ setToken }) => {
     try {
       const NewUser = {
         email: email,
-
         password: password,
       };
       const newUserToken = await LoginPerson(NewUser);
@@ -24,7 +23,7 @@ const Login = ({ setToken }) => {
 
       setToken(newUserToken);
       if (newUserToken) {
-        navigate.push("/Home");
+        navigate.push("/home");
       }
     } catch (err) {
       setErrorMessage(err.message);
