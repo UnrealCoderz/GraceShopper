@@ -4,7 +4,7 @@ const Logout = ({ setIsLoggedIn }) => {
   const navigate = useHistory();
   useEffect(() => {
     setIsLoggedIn(false);
-    navigate("/users/Login");
+    navigate("/Login");
   });
   localStorage.removeItem("token");
   localStorage.removeItem("email");

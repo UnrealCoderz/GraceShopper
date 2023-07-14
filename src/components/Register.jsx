@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { LoginPerson } from "../../api/index";
+import { RegisterPerson } from "../api/index.js";
 import { useState } from "react";
 
-const Login = ({ setToken }) => {
+const Register = ({ setToken }) => {
   const navigate = useHistory();
-
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -14,18 +14,17 @@ const Login = ({ setToken }) => {
     try {
       const NewUser = {
         email: email,
-
+        username: username,
         password: password,
       };
-      const newUserToken = await LoginPerson(NewUser);
+      const newUserToken = await RegisterPerson(NewUser);
       if (newUserToken.error) {
         throw new Error(newUserToken.message);
       }
-
       setToken(newUserToken);
-      localStorage.setItem("THe Goods", newUserToken.token);
+      localStorage.setItem("The Goods", newUserToken.token);
       if (newUserToken) {
-        navigate.push("/");
+        navigate.push("/home");
       }
     } catch (err) {
       setErrorMessage(err.message);
@@ -33,9 +32,9 @@ const Login = ({ setToken }) => {
   }
 
   return (
-    <div className="loginContainer">
+    <div className="loginContainer" id="registerBox">
       <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+        <h1>Sign Up for an Account</h1>
         <div className="loginBox">
           <label className="inputLabels">Enter Email:</label>
           <input
@@ -59,12 +58,22 @@ const Login = ({ setToken }) => {
               setPassword(event.target.value);
             }}
           ></input>
-
+          <label className="inputLabels">Enter Your Username:</label>
+          <input
+            className="inputBox"
+            placeholder="Enter Your Username"
+            type="text"
+            name="username"
+            value={username}
+            onChange={(event) => {
+              setUsername(event.target.value);
+            }}
+          ></input>
           <p>{errorMessage}</p>
-          <button>Login</button>
+          <button>CREATE ACCOUNT</button>
         </div>
       </form>
     </div>
   );
 };
-export default Login;
+export default Register;

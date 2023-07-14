@@ -1,0 +1,35 @@
+.product {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px;
+    cursor: pointer;
+}
+
+.product:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.product h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.product .description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.product .price {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.product .image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 8px;
+}

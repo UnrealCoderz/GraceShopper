@@ -1,5 +1,10 @@
-export { default as App } from './App';
-export { default as Login } from "./users/Login";
-export { default as Logout } from "./users/Logout";
-export { default as Register } from "./users/Register";
+export { default as App } from '../App';
+export { default as Home } from "./Home";
+export { default as About } from "./About";
+export { default as Login } from "./Login";
+export { default as Logout } from "./Logout";
+export { default as Register } from "./Register";
+export { default as Products } from "./Products";
 export { default as Cart } from './Cart';
+export { default as SingleProduct } from "./SingleProduct";
+export { default as FeaturedProduct } from "./FeaturedProduct";
