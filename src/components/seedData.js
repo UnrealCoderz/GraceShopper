@@ -61,9 +61,4 @@ const products = [
     }
 ];
 
-// Example usage of the dummy data
-console.log(products);  // Output the entire array of products
-console.log(products[0]);  // Output the first product
-console.log(products[0].name);  // Output the name of the first product
-
 export default products;

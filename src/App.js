@@ -77,13 +77,15 @@ const App = () => {
         <div className="app-container">
           <Cart isOpen={isCartOpen} onClose={closeCart} removeFromCart={removeFromCart} setCartCount={setCartCount} />
           <Switch>
-            <Route exact path="/" component={Home} isLoggedIn={isLoggedIn} token={token} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/register" component={Register} setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
-            <Route exact path="/login" component={Login} setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
-            <Route exact path="/logout" component={Logout} setIsLoggedIn={setIsLoggedIn} setToken={setToken} />
-            <Route exact path="/products" component={Products} addToCart={addToCart} />
-            <Route exact path="/product" component={SingleProduct} addToCart={addToCart} />
+            <Route path="/"><Home user={user} token={token} isLoggedIn={isLoggedIn} /></Route>
+            <Route path="/about"><About /></Route>
+            <Route path="/login"><Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} /></Route>
+            <Route path="/register"><Register setIsLoggedIn={setIsLoggedIn} setToken={setToken} /></Route>
+            <Route path="/logout"><Logout setIsLoggedIn={setIsLoggedIn} /></Route>
+            {/* <Route path="/users"><Users /></Route> */}
+            <Route path="/products"><Products addToCart={addToCart} /></Route>
+            {/* <Route path="/product"><Products addToCart={addToCart} /></Route>
+            <Route exact path="/product" component={SingleProduct} addToCart={addToCart} /> */}
           </Switch >
         </div >
       </div >

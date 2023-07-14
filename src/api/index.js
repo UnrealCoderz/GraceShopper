@@ -2,7 +2,7 @@ const API_URL = "http://localhost:4000/api";
 
 async function LoginPerson(UserObj) {
   try {
-    const response = await fetch(`${API_URL}/login`, {
+    const response = await fetch(`${API_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ async function LoginPerson(UserObj) {
 
 async function RegisterPerson(UserObj) {
   try {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${API_URL}/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

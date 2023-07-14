@@ -59,7 +59,7 @@ const Cart = ({ isOpen, onClose, removeFromCart, setCartCount }) => {
                 Close
             </button>
         </div>,
-        document.getElementById('cart-root') // Assuming you have a div with id="cart-root" in your HTML
+        document.getElementById('cart-root')
     );
 };
 
