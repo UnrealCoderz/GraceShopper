@@ -5,6 +5,7 @@ import "../style/App.css";
 import Login from "./users/Login";
 import Register from "./users/Register";
 import Logout from "./users/Logout";
+import Home from "./home/home";
 import Cart from "./Cart";
 import { myData } from "../api";
 const About = () => <h2>About</h2>;
@@ -109,7 +110,7 @@ const App = () => {
               <Logout setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route path="/">
-              <Home isLoggedIn={isLoggedIn} />
+              <Home user={user} token={token} />
             </Route>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
