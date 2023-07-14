@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { LoginPerson } from "../api/index";
 import { useState } from "react";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setIsLoggedIn }) => {
   const navigate = useHistory();
 
   const [email, setEmail] = useState("");
@@ -23,6 +23,7 @@ const Login = ({ setToken }) => {
 
       setToken(newUserToken);
       localStorage.setItem("THe Goods", newUserToken.token);
+      setIsLoggedIn(true);
       if (newUserToken) {
         navigate.push("/");
       }
