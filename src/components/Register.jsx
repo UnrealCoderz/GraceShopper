@@ -25,7 +25,7 @@ const Register = ({ setToken, setIsLoggedIn }) => {
       localStorage.setItem("The Goods", newUserToken.token);
       setIsLoggedIn(true);
       if (newUserToken) {
-        navigate.push("/home");
+        navigate.push("/");
       }
     } catch (err) {
       setErrorMessage(err.message);

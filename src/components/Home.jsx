@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import About from "./About";
 import Cart from "./Cart";
+import CreateProduct from "./CreateProduct";
 import { useHistory } from "react-router-dom";
 const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn }) => {
   const navigate = useHistory();
   const [showCart, setShowCart] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   return (
     <div>
       {isLoggedIn ? (
@@ -27,6 +29,14 @@ const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn }) => {
             </div>
           )}
           {/* <h2>{token}</h2> */}
+          <button
+            onClick={() => {
+              setShowForm(true);
+            }}
+          >
+            Create Sale
+          </button>
+          {showForm && <CreateProduct setShowForm={setShowForm} user={user} />}
         </div>
       ) : (
         <div>
