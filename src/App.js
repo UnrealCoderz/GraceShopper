@@ -7,9 +7,10 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Cart from './components/Cart';
-import Products from './components/Products'
+import Products from './components/Products';
+import SingleProductPage from './components/singleProductPage';
 import { myData } from './api/index'
-import productsData from './components/seedData';
+import GetAllProducts from './api/index';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +19,7 @@ const App = () => {
   const [singleProductPath, setSingleProductPath] = useState('');
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
+  const [productsData, setProductsData] = useState([]);
   const openCart = () => {
     setCartOpen(!isCartOpen);
   };
@@ -92,8 +94,11 @@ const App = () => {
             <Route exact path="/">
               <Home user={user} token={token} />
             </Route>
+            <Route path="/product/:productId">
+              <SingleProductPage productsData={productsData}/>
+            </Route>
             <Route path="/products">
-              <Products user={user} productsData={productsData} addToCart={addToCart} />
+              <Products user={user} productsData={productsData} setProductsData={setProductsData} addToCart={addToCart} />
             </Route>
           </Switch >
         </div >
