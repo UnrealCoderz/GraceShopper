@@ -48,7 +48,7 @@ const Login = ({ setToken, setIsLoggedIn }) => {
               setEmail(event.target.value);
             }}
           ></input>
-          <label className="inputLabels">Create Password:</label>
+          <label className="inputLabels">Enter Password:</label>
           <input
             className="inputBox"
             placeholder="8 Characters Minimum"

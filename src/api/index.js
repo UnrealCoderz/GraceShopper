@@ -59,6 +59,21 @@ async function createProduct(prodObj) {
   }
 }
 
+async function GetAllProducts() {
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      headers: {
+      "Content-Type": "application/json"
+    },
+    });
+    const result = await response.json();
+    return result;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
 const myData = async (token) => {
   try {
     const response = await fetch(`${API_URL}/users/me`, {
@@ -91,4 +106,4 @@ const getAllProducts = async () => {
   }
 };
 
-export { RegisterPerson, LoginPerson, myData, getAllProducts, createProduct };
+export { RegisterPerson, LoginPerson, myData, GetAllProducts, getAllProducts, createProduct };
