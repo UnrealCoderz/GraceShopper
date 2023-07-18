@@ -20,19 +20,21 @@ router.get("/", async (req, res) => {
   res.send(Products);
 });
 
-router.post("/", async (req, res, next) => {
-  const { name, description, price } = req.body;
+router.post("/", requireUser, async (req, res, next) => {
+  console.log(req);
+  const { name, description, price, image } = req.body;
+  const active = true;
   const sellerId = req.user.id;
-  const categoryId = req.user.id;
-  // dont Know what we are doing for category Id yet so ignore that
 
   const newProduct = await createNewProduct(
     sellerId,
     name,
     description,
+    image,
     price,
-    categoryId
+    active
   );
+  console.log("Hit", newProduct);
   res.send(newProduct);
 });
 
