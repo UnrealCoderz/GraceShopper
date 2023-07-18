@@ -16,7 +16,7 @@ const {
 
 router.get("/", async (req, res) => {
   const Products = await getAllProducts();
-
+  console.log(Products, "A");
   res.send(Products);
 });
 
@@ -54,7 +54,10 @@ router.patch("/:productId", async (req, res, next) => {
     }
 
     console.log(updateFields);
-    const updatedProduct = await updateProduct(req.params.productId, updateFields);
+    const updatedProduct = await updateProduct(
+      req.params.productId,
+      updateFields
+    );
     res.send(updatedProduct);
   } catch (error) {
     next(error);
@@ -63,14 +66,14 @@ router.patch("/:productId", async (req, res, next) => {
 
 router.delete("/:productId/:sellerId", requireUser, async (req, res, next) => {
   try {
-    console.log('req.params is ', req.params)
-    console.log('req.user is ', req.user)
+    console.log("req.params is ", req.params);
+    console.log("req.user is ", req.user);
     const Product = await getProductById(req.params.productId);
-    console.log('product is ', Product)
+    console.log("product is ", Product);
     if (req.user.id === Product.usersid) {
       const deletedProduct = await deleteProduct(req.params.productId);
       res.send(deletedProduct);
-      console.log('deleted product for the seller')
+      console.log("deleted product for the seller");
     } else {
       res.status(403);
       next({

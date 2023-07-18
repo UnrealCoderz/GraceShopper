@@ -9,17 +9,19 @@ import Logout from './components/Logout';
 import Cart from './components/Cart';
 import Products from './components/Products';
 import SingleProductPage from './components/singleProductPage';
-import { myData } from './api/index'
-import GetAllProducts from './api/index';
+import { myData, getAllProducts, GetAllProducts } from "./api/index";
+import productsData from "./components/seedData";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
-  const [singleProductPath, setSingleProductPath] = useState('');
+  const [singleProductPath, setSingleProductPath] = useState("");
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
   const [productsData, setProductsData] = useState([]);
+  const [products, setProducts] = useState([]);
+  
   const openCart = () => {
     setCartOpen(!isCartOpen);
   };
@@ -46,6 +48,15 @@ const App = () => {
     }
   }, [token]);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await getAllProducts();
+
+      console.log(products, "HEEE");
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <Router>
       <div>
@@ -64,20 +75,29 @@ const App = () => {
             <li className="nav-item">
               <Link to="/products">Products</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/login">Login</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/register">Register</Link>
-            </li>
+            {!token && (
+              <>
+                <li className="nav-item">
+                  <Link to="/login">Login</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/register">Register</Link>
+                </li>{" "}
+              </>
+            )}
             <li className="nav-item-cart" onClick={openCart}>
               {/* <span className='cart-image'>Cart</span> */}
               <span onClick={openCart}>Cart: {cartCount}</span>
             </li>
           </ul>
-        </nav >
+        </nav>
         <div className="app-container">
-          <Cart isOpen={isCartOpen} onClose={closeCart} removeFromCart={removeFromCart} setCartCount={setCartCount} />
+          <Cart
+            isOpen={isCartOpen}
+            onClose={closeCart}
+            removeFromCart={removeFromCart}
+            setCartCount={setCartCount}
+          />
           <Switch>
             <Route path="/about">
               <About />
@@ -92,7 +112,13 @@ const App = () => {
               <Logout setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route exact path="/">
-              <Home user={user} token={token} />
+              <Home
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                token={token}
+                user={user}
+                setToken={setToken}
+              />
             </Route>
             <Route path="/product/:productId">
               <SingleProductPage productsData={productsData}/>
@@ -100,10 +126,10 @@ const App = () => {
             <Route path="/products">
               <Products user={user} productsData={productsData} setProductsData={setProductsData} addToCart={addToCart} />
             </Route>
-          </Switch >
-        </div >
-      </div >
-    </Router >
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 };
 
