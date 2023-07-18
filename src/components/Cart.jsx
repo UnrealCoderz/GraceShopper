@@ -40,15 +40,15 @@ const Cart = ({ isOpen, onClose, removeFromCart, setCartCount }) => {
                 {cartItems.length === 0 ? (
                     <p>No items in the cart.</p>
                 ) : (
-                    <ul>
+                    <ul className='cart-list'>
                         {cartItems.map((item) => (
-                            <li key={item.id}>
-                                <span className={item.image} onClick={() => handleItemClick(item.id)}>
+                            <li className='single-item' key={item.id}>
+                                <span className='item-image' onClick={() => handleItemClick(item.id)}>
                                     <img src={item.image} alt={item.name} />
                                 </span>
                                 <span>{item.name}</span>
                                 <span>${item.price}</span>
-                                <button onClick={() => removeItem(item.id)}>Remove</button>
+                                <button className='remove-button' onClick={() => removeItem(item.id)}>Remove</button>
                             </li>
                         ))}
                     </ul>

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import "./App.css";
-import Home from "./components/Home";
-import About from "./components/About";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Logout from "./components/Logout";
-import Cart from "./components/Cart";
-import Products from "./components/Products";
-import { myData, getAllProducts } from "./api/index";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Home from './components/Home'
+import About from './components/About';
+import Login from './components/Login';
+import Register from './components/Register';
+import Logout from './components/Logout';
+import Cart from './components/Cart';
+import Products from './components/Products';
+import SingleProductPage from './components/singleProductPage';
+import { myData, getAllProducts, GetAllProducts } from "./api/index";
 import productsData from "./components/seedData";
 
 const App = () => {
@@ -18,7 +19,9 @@ const App = () => {
   const [singleProductPath, setSingleProductPath] = useState("");
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
+  const [productsData, setProductsData] = useState([]);
   const [products, setProducts] = useState([]);
+  
   const openCart = () => {
     setCartOpen(!isCartOpen);
   };
@@ -117,12 +120,11 @@ const App = () => {
                 setToken={setToken}
               />
             </Route>
+            <Route path="/product/:productId">
+              <SingleProductPage productsData={productsData}/>
+            </Route>
             <Route path="/products">
-              <Products
-                user={user}
-                productsData={productsData}
-                addToCart={addToCart}
-              />
+              <Products user={user} productsData={productsData} setProductsData={setProductsData} addToCart={addToCart} />
             </Route>
           </Switch>
         </div>

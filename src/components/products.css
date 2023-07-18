@@ -14,8 +14,21 @@
 }
 
 .product-card {
-    background-color: #fff;
+    background-color: #efe8d8;
+    width:375px;
+    height:400px;
+    color:black;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 16px;
+}
+
+.product {
+    display:flex;
+    flex-direction:column;
+}
+
+img.product-card-image {
+    height: 110px;
+    width: 110px;
 }

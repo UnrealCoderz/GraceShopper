@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './singleproduct.css';
 
 const SingleProduct = ({ product, addCart }) => {
     const handleClick = () => {
@@ -11,7 +12,7 @@ const SingleProduct = ({ product, addCart }) => {
             <h3>{product.name}</h3>
             <p className="description">{product.description}</p>
             <p className="price">Price: ${product.price}</p>
-            <img className="image" src={product.image} alt={product.name} />
+            <img className="product-card-image" src={product.image} alt={product.name} />
         </div>
     );
 };

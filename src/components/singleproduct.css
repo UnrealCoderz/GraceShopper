@@ -1,8 +1,10 @@
 .product {
+    background-color: #efe8d8;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 16px;
     cursor: pointer;
+    color:black;
 }
 
 .product:hover {
