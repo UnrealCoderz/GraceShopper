@@ -3,16 +3,31 @@ import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router-dom';
 import productsData from './seedData';
 import './cart.css';
+import { addToCartDb } from '../api';
 
-const Cart = ({ isOpen, onClose, removeFromCart, setCartCount }) => {
-    const [cartItems, setCartItems] = useState(productsData);
-    // const [cartItems, setCartItems] = useState([]);
+const parseFromLocalCart = () => {
+    console.log('no user, parse from local storage');
+    console.log('localStorage is ', localStorage);
+}
+
+const removeFromLocalCart = () => {
+    console.log('no user, remove from local storage');
+    console.log('localStorage is ', localStorage);
+}
+
+const Cart = ({ isOpen, onClose, removeFromCart, setCartCount, user, token, cartItems, setCartItems }) => {
+    //const [cartItems, setCartItems] = useState(productsData);
     const navigate = useHistory();
 
     const removeItem = (itemId) => {
-        setCartItems(cartItems.filter((item) => item.id !== itemId));
-        setCartCount(cartItems.length)
-        removeFromCart()
+        if (user) {
+            setCartItems(cartItems.filter((item) => item.id !== itemId));
+            setCartCount(cartItems.length)
+            removeFromCart()
+        }
+        else {
+            removeFromLocalCart;
+        }
     };
 
     const calculateTotalCost = () => {
@@ -26,8 +41,15 @@ const Cart = ({ isOpen, onClose, removeFromCart, setCartCount }) => {
     };
 
     useEffect(() => {
-        setCartCount(cartItems.length)
-    }, []);
+        setCartCount(cartItems.length);
+        if (user) {
+            console.log('logic for parsing cart from db');
+            console.log('cartItems is ', cartItems);
+        }
+        else {
+            parseFromLocalCart();
+        }
+    }, [cartItems]);
 
     if (!isOpen) {
         return null;

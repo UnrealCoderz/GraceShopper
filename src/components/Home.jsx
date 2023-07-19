@@ -4,7 +4,7 @@ import About from "./About";
 import Cart from "./Cart";
 import CreateProduct from "./CreateProduct";
 import { useHistory } from "react-router-dom";
-const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn }) => {
+const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn, products, setProducts }) => {
   const navigate = useHistory();
   const [showCart, setShowCart] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -36,7 +36,7 @@ const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn }) => {
           >
             Create Sale
           </button>
-          {showForm && <CreateProduct setShowForm={setShowForm} user={user} />}
+          {showForm && <CreateProduct setShowForm={setShowForm} user={user} products={products} setProducts={setProducts} token={token}/>}
         </div>
       ) : (
         <div>

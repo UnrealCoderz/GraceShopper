@@ -1,3 +1,5 @@
+
+
 const API_URL = "http://localhost:4000/api";
 
 async function LoginPerson(UserObj) {
@@ -16,6 +18,28 @@ async function LoginPerson(UserObj) {
 
     return result.token;
   } catch (error) {
+    throw error;
+  }
+}
+
+async function addToCartDb(productId, cartId) {
+  try {
+    const response = await fetch(`${API_URL}/products/cartproducts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: productId,
+        cartId: cartId,
+        quantity: 1
+      }),
+    }); 
+    const result = await response.json();
+    //console.log('result is', result);
+    return result[0];
+  }
+  catch (error) {
     throw error;
   }
 }
@@ -41,18 +65,19 @@ async function RegisterPerson(UserObj) {
   }
 }
 
-async function createProduct(prodObj) {
+async function createProduct(prodObj, token) {
   try {
     const response = await fetch(`${API_URL}/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(prodObj),
     });
     const result = await response.json();
     console.log(result);
-    cpnsole.log(prodObj);
+    console.log(prodObj);
     return result;
   } catch (error) {
     throw error;
@@ -106,4 +131,4 @@ const getAllProducts = async () => {
   }
 };
 
-export { RegisterPerson, LoginPerson, myData, GetAllProducts, getAllProducts, createProduct };
+export { RegisterPerson, LoginPerson, myData, GetAllProducts, getAllProducts, createProduct, addToCartDb };
