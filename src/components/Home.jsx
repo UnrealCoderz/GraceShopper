@@ -10,6 +10,7 @@ const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn, products, setP
   const [showForm, setShowForm] = useState(false);
   return (
     <div>
+      <img className='main-logo' src ="https://cdn.discordapp.com/attachments/1078491602454069340/1131374790423367740/gameboosters_480.png" />
       {isLoggedIn ? (
         <div>
           <h1>Welcome to UnrealBoosters!</h1>
@@ -41,8 +42,8 @@ const Home = ({ isLoggedIn, token, user, setToken, setIsLoggedIn, products, setP
       ) : (
         <div>
           <p>
-            Please <Link to="/login">login</Link> or{" "}
-            <Link to="/register">register</Link>.
+            Please <button> <Link to="/login">login</Link> </button> or{" "} <button>
+            <Link to="/register">register</Link>. </button>
           </p>
           {/* <About /> */}
         </div>

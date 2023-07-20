@@ -68,7 +68,6 @@ const App = () => {
               <Link to="/">Unreal Boosters</Link>
             </li>
             <li className="nav-item">
-              {token && <p>{token.token}</p>}
               <Link to="/">Home</Link>
             </li>
             <li className="nav-item">
@@ -95,6 +94,7 @@ const App = () => {
         </nav>
         <div className="app-container">
           <Cart
+            user={user}
             isOpen={isCartOpen}
             onClose={closeCart}
             removeFromCart={removeFromCart}

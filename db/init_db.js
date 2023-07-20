@@ -121,7 +121,7 @@ async function populateInitialData() {
       name: "Final Fantasy XIV account",
       description: "This account has all classes fully leveled and has cleared all Ultimate Raids up to 6.4. Also includes the Regalia Type-G mount",
       price: 500,
-      image: 1,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373791918964817/Featured-Final-Fantasy-14-What-is-the-max-level-in-Final-Fantasy-14.png',
       active: true
     });
     console.log("product1 is ", product1);
@@ -130,7 +130,7 @@ async function populateInitialData() {
       name: "Valorant account",
       description: "This account has the highest rank in ranked mode, pew pew",
       price: 2000,
-      image: 1,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373636654215178/AscendantRank.png',
       active: true
     });
     console.log("product2 is ", product2);
@@ -139,7 +139,7 @@ async function populateInitialData() {
       name: "Genshin Impact Account",
       description: "This account has every 5-star character released up to 3.8, as well as each character's personal weapons",
       price: 10000,
-      image: 1,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373584045052005/show.png',
       active: true
     });
     console.log("product3 is ", product3);
