@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { createProduct } from "../api";
-const CreateProduct = ({ setShowForm, user }) => {
+import { createProduct, GetAllProducts } from "../api";
+const CreateProduct = ({ setShowForm, user, products, setProducts, token }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
@@ -25,6 +25,7 @@ const CreateProduct = ({ setShowForm, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('user id is ', user.id);
     const product = {
       sellerId: user.id,
       name,
@@ -33,7 +34,8 @@ const CreateProduct = ({ setShowForm, user }) => {
       price,
       active,
     };
-    const newProd = await createProduct(product);
+    const newProd = await createProduct(product, token);
+    setProducts(await GetAllProducts());
     setShowForm(false);
   };
 

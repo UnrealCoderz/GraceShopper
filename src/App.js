@@ -21,6 +21,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [productsData, setProductsData] = useState([]);
   const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   
   const openCart = () => {
     setCartOpen(!isCartOpen);
@@ -37,6 +38,7 @@ const App = () => {
   const removeFromCart = () => {
     cartCount <= 0 ? setCartCount(0) : setCartCount(cartCount - 1);
   };
+  localStorage.setItem("Local Cart", []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,7 +68,6 @@ const App = () => {
               <Link to="/">Unreal Boosters</Link>
             </li>
             <li className="nav-item">
-              {token && <p>{token.token}</p>}
               <Link to="/">Home</Link>
             </li>
             <li className="nav-item">
@@ -89,14 +90,17 @@ const App = () => {
               {/* <span className='cart-image'>Cart</span> */}
               <span onClick={openCart}>Cart: {cartCount}</span>
             </li>
-          </ul>
+          </ul> 
         </nav>
         <div className="app-container">
           <Cart
+            user={user}
             isOpen={isCartOpen}
             onClose={closeCart}
             removeFromCart={removeFromCart}
             setCartCount={setCartCount}
+            cartItems={cartItems}
+            setCartItems={setCartItems}
           />
           <Switch>
             <Route path="/about">
@@ -118,13 +122,15 @@ const App = () => {
                 token={token}
                 user={user}
                 setToken={setToken}
+                products={products}
+                setProducts={setProducts}
               />
             </Route>
             <Route path="/product/:productId">
               <SingleProductPage productsData={productsData}/>
             </Route>
             <Route path="/products">
-              <Products user={user} productsData={productsData} setProductsData={setProductsData} addToCart={addToCart} />
+              <Products user={user} productsData={productsData} setProductsData={setProductsData} addToCart={addToCart} cartItems={cartItems} setCartItems={setCartItems} />
             </Route>
           </Switch>
         </div>

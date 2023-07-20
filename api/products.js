@@ -21,22 +21,27 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireUser, async (req, res, next) => {
-  console.log(req);
-  const { name, description, price, image } = req.body;
-  const active = true;
-  const sellerId = req.user.id;
+  try{
+    console.log(req.user);
+    const { name, description, price, image } = req.body;
+    const active = true;
+    const sellerId = req.user.id;
 
-  const newProduct = await createNewProduct(
-    sellerId,
-    name,
-    description,
-    image,
-    price,
-    active
-  );
-  console.log("Hit", newProduct);
-  res.send(newProduct);
-});
+    const newProduct = await createNewProduct({
+      sellerId: sellerId,
+      name: name,
+      description: description,
+      image: image,
+      price: price,
+      active: active
+    });
+    console.log("Hit", newProduct);
+    res.send(newProduct);
+  }
+  catch (error) {
+    next(error);
+  }
+  });
 
 router.patch("/:productId", async (req, res, next) => {
   try {
@@ -118,5 +123,22 @@ router.post("/:productId/cart", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/cartproducts", async (req, res, next) => {
+  const { productId, cartId, quantity } = req.body;
+  try {
+      const productInCart = {
+          productId: productId,
+          cartId: cartId,
+          quantity: quantity
+      }
+      const addedCartItem = await addProductToCart(productInCart);
+      console.log('add successful');
+      res.send(addedCartItem);
+  } catch (error) {
+      next(error);
+  }
+});
+
 
 module.exports = router;

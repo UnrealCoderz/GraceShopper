@@ -116,40 +116,41 @@ async function populateInitialData() {
     console.log("successfully created categories");
 
     console.log("creating products...");
-    const product1 = await createNewProduct(
-      2,
-      "Final Fantasy XIV account",
-      "This account has all classes fully leveled and has cleared all Ultimate Raids up to 6.4. Also includes the Regalia Type-G mount",
-      500,
-      1,
-      true
-    );
+    const product1 = await createNewProduct({
+      sellerId: 2,
+      name: "Final Fantasy XIV account",
+      description: "This account has all classes fully leveled and has cleared all Ultimate Raids up to 6.4. Also includes the Regalia Type-G mount",
+      price: 500,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373791918964817/Featured-Final-Fantasy-14-What-is-the-max-level-in-Final-Fantasy-14.png',
+      active: true
+    });
     console.log("product1 is ", product1);
-    const product2 = await createNewProduct(
-      3,
-      "Valorant account",
-      "This account has the highest rank in ranked mode, pew pew",
-      2000,
-      1,
-      true
-    );
+    const product2 = await createNewProduct({
+      sellerId: 3,
+      name: "Valorant account",
+      description: "This account has the highest rank in ranked mode, pew pew",
+      price: 2000,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373636654215178/AscendantRank.png',
+      active: true
+    });
     console.log("product2 is ", product2);
-    const product3 = await createNewProduct(
-      3,
-      "Genshin Impact Account",
-      "This account has every 5-star character released up to 3.8, as well as each character's personal weapons",
-      10000,
-      1,
-      true
-    );
+    const product3 = await createNewProduct({
+      sellerId: 3,
+      name: "Genshin Impact Account",
+      description: "This account has every 5-star character released up to 3.8, as well as each character's personal weapons",
+      price: 10000,
+      image: 'https://cdn.discordapp.com/attachments/1078491602454069340/1131373584045052005/show.png',
+      active: true
+    });
     console.log("product3 is ", product3);
     console.log("successfully created products");
 
     console.log("creating new carts...");
     const newCartArray = [];
-    const cart1 = await createNewCart(1, "idk");
-    const cart2 = await createNewCart(2, "something something");
-    const cart3 = await createNewCart(3, "status undefined");
+    const cart1 = await createNewCart(1, "active");
+    const cart2 = await createNewCart(2, "active");
+    const cart3 = await createNewCart(3, "active");
+    const cart4 = await createNewCart(4, "active");
     newCartArray.push(cart1);
     newCartArray.push(cart2);
     newCartArray.push(cart3);

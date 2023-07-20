@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const { addProductToCart, getProductsInCartById, deleteProductsInCart, updateProductsInCart } = require("../db/models/productsInCart");
 const router = express.Router();
 
-router.post("/cartproducts", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     const { productId, cartId, quantity } = req.body;
     try {
         const productInCart = {
@@ -14,7 +14,8 @@ router.post("/cartproducts", async (req, res, next) => {
             quantity: quantity
         }
         const addedCartItem = await addProductToCart(productInCart);
-        res.send(addedCartItem, 'Successfully added product to cart');
+        console.log('add successful');
+        res.send(addedCartItem, "add successful");
     } catch (error) {
         next(error);
     }
